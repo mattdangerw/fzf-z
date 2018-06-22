@@ -32,7 +32,7 @@ __fzfz() {
     # FZFZ_SUBDIR_LIMIT is applied on the post-excluded list.
 
     if (($+FZFZ_EXTRA_DIRS)); then
-        EXTRA_DIRS="{ find $FZFZ_EXTRA_DIRS -type d 2> /dev/null | $EXCLUDER }"
+        EXTRA_DIRS="{ find $FZFZ_EXTRA_DIRS -maxdepth 1 -type d 2> /dev/null | $EXCLUDER }"
     else
         EXTRA_DIRS="{ true }"
     fi
