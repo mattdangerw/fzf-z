@@ -39,15 +39,11 @@ __fzfz() {
 
     FZFZ_SUBDIR_LIMIT=${FZFZ_SUBDIR_LIMIT:=50}
 
-    REMOVE_FIRST="tail -n +2"
-    LIMIT_LENGTH="head -n $(($FZFZ_SUBDIR_LIMIT+1))"
-
-    SUBDIRS="{ find '$PWD' -type d | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
     RECENTLY_USED_DIRS="{ z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
 
     FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
 
-    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZFZ_UNIQUIFIER | $FZF_COMMAND"
+    local COMMAND="{ $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZFZ_UNIQUIFIER | $FZF_COMMAND"
 
     eval "$COMMAND" | while read item; do
         printf '%q ' "$item"
